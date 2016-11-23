@@ -186,7 +186,7 @@
         }
         var now = new Date();
         setContent('clock', getTimeLabel(now));
-        setContent('greeting', getGreetingLabel(now, getNameFromUrlOrDefault()));
+        setContent('greeting', getGreetingLabel(now, getNameOrDefault()));
         setTimeout(tick, 500);
     }
     function getTimeLabel(time) {
@@ -203,14 +203,24 @@
         if (time < 1700) return "Good afternoon, " + name + "."; else
                          return "Good evening, " + name + ".";
     }
-    function getNameFromUrlOrDefault(){
+    function getNameOrDefault(){
         var vars = window.location.search.substring(1).split("&");
-        for (var i=0;i<vars.length;i++) {
-            var pair = vars[i].split("=");
-            if (typeof pair[0] === "string") {
-                if (pair[0] === "name")
-                    return pair[1];
-            }            
+        if (vars[0].indexOf("=") !== -1) {
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if (typeof pair[0] === "string") {
+                    if (pair[0] === "name") {
+                        if (typeof(Storage) !== "undefined")
+                            localStorage.name = pair[1];
+                        return pair[1];
+                    }
+                }
+            } 
+        } else {
+            if (typeof(Storage) !== "undefined") {
+                if (localStorage.name !== undefined)
+                    return localStorage.name; 
+            }
         }
         return "Bernhard";
     }
