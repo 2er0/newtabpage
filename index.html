@@ -168,8 +168,34 @@
         { "filename": "05676e094c6d4b65b571ddfadda29ff0.jpg", "location": "Orajõe, Estland"},
         { "filename": "743f40b2a12d45b18c01f1e5792d023e.jpg", "location": "Baltic Sea, Finland"},
         { "filename": "ea1ddd9bfa97413188353783e6e55f1f.jpg", "location": "Knutnäsvägen, Åland"}
-    ];
-
+     ];
+     /*
+        Store-Model to load and store from localStorage
+      */
+    var Store = {
+         Store: function(key, value) {
+             if (typeof(Storage) !== "undefined") {
+                 localStorage[key] = value;
+                 return true;
+             }
+             return null;
+         },
+        Load: function(key) {
+             if ((typeof(Storage) !== "undefined") &&
+                 (localStorage[key] !== undefined)) {
+                 return localStorage[key];
+             };
+             return null;
+         },
+         Delete: function(key) {
+             if ((typeof(Storage) !== "undefined") &&
+                 (localStorage[key] !== undefined)) {
+                 localStorage.removeItem(key);
+                 return true;
+             }
+             return null;
+         }
+     };
     (function start() {
         randomizeBackground(images);
         tick();
@@ -210,17 +236,13 @@
                 var pair = vars[i].split("=");
                 if (typeof pair[0] === "string") {
                     if (pair[0] === "name") {
-                        if (typeof(Storage) !== "undefined")
-                            localStorage.name = pair[1];
+                        Store.Store("name", pair[1]);
                         return pair[1];
-                    }
-                }
-            } 
+        }}}
         } else {
-            if (typeof(Storage) !== "undefined") {
-                if (localStorage.name !== undefined)
-                    return localStorage.name; 
-            }
+            var name = Store.Load("name");
+            if (name !== null)
+                return name;
         }
         return "Bernhard";
     }
