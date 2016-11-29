@@ -157,6 +157,15 @@
                 </svg>
                 <label>awesome</label>
             </a>
+            <a onclick="console.log(Store.ExportConfig())">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="1086 1086 4893 7350" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+                    <path d="M 1381,6080 L 3540,7350 3540,4810 1381,3540 1381,6080 Z"/>
+                    <path d="M 3540,4810 L 5826,3540 5826,6080 3540,7350 3540,4810 Z"/>
+                    <path d="M 1381,3540 L 3604,2270 5826,3540 5826,3640 3604,2370 1381,3640"/>
+                    <path d="M 3286,3667 L 3286,2016 2905,2016 3540,1381 4175,2016 3794,2016 3794,3667 3286,3667 Z"/>
+                </svg>
+                <label>Export</label>
+            </a>
         </div>
         <a target="_blank" id="background-label"></a>
     </div>
@@ -172,7 +181,8 @@
      /*
         Store-Model to load and store from localStorage
       */
-    var Store = {
+     var Store = {
+         configKeys : [],
          Store: function(key, value) {
              if (typeof(Storage) !== "undefined") {
                  localStorage[key] = value;
@@ -194,6 +204,16 @@
                  return true;
              }
              return null;
+         },
+         ExportConfig: function() {
+             var configUrl = "?";
+             for (var i = 0; i < localStorage.length; i++) {
+                 configUrl += localStorage.key(i) + "=" +
+                              localStorage.getItem(localStorage.key(i));
+                 if (i < localStorage.length - 1)
+                     configUrl += "&";
+             }
+             return location.protocol + '//' + location.host + location.pathname + configUrl;
          }
      };
     (function start() {
