@@ -54,7 +54,23 @@
         white-space: nowrap;
         font-weight: 500;
     }
+    #settings {
+        z-index: 2;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    #settingsOutput {
+        position: fixed;
+        right: 10px;
+        /*display: none;*/
+    }
 
+    #copiedStatus {
+        margin: 2px;
+        color: white;
+        /*display: none;*/
+    }
     #links {
         margin-top: 10vh;
         display: flex;
@@ -62,7 +78,7 @@
         justify-content: center;
         padding: .7em;
     }
-    #links > a {
+    #links > a, .links > a {
         color: white;
         text-decoration: none;
         text-transform: uppercase;
@@ -72,15 +88,15 @@
         align-items: center;
         transition: all .05s ease-in-out;
     }
-    #links > a:hover {
+    #links > a:hover, .links > a:hover {
         transform: scale(1.1);
     }
-    #links svg {
+    #links svg, .links svg {
         fill: white;
         height: 2.3em;
         width: 2.3em;
     }
-    #links label {
+    #links label, .links label {
         display: block;
         cursor: pointer;
         font-size: .5em;
@@ -157,6 +173,11 @@
                 </svg>
                 <label>awesome</label>
             </a>
+        </div>
+        <a target="_blank" id="background-label"></a>
+    </div>
+    <div id="settings">
+        <div id="settingsItems" class="links">
             <a onclick="console.log(Store.ExportConfig())">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="1086 1086 4893 7350" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
                     <path d="M 1381,6080 L 3540,7350 3540,4810 1381,3540 1381,6080 Z"/>
@@ -167,7 +188,10 @@
                 <label>Export</label>
             </a>
         </div>
-        <a target="_blank" id="background-label"></a>
+        <div id="settingsOutput">
+            <input id="exportSpace" type="url" autofocus="true" /><br>
+            <span id="copiedStatus" class="badge">Copied to clipboard</span>
+        </div>
     </div>
 
     <script>
